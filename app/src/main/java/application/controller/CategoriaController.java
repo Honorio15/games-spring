@@ -71,4 +71,24 @@ public String insert() {
     }
 
     @RequestMapping("/delete")
-    
+    public String delete(
+        @RequestParam("id") long id,
+        Model ui) {
+            
+            Optional<Categoria> categoria = categoriaRepo.findById(id);
+
+            if(categoria.isPresent()){
+                ui.addAttribute("categoria", categoria.get());
+                return "categoria/delete";
+            }
+
+            return "redirect:/categoria/list";
+        }
+
+        @RequertMapping(value = "/delete", method = RequestMethod.POST)
+        public String delete(@RequestParam("id") log id) {
+            categoriaRepo.deleteById(id);
+
+            return "redirect:/categoria/list";
+        }
+}
